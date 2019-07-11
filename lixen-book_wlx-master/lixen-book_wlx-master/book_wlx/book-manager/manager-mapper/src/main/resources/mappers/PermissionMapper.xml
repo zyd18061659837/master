@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.itany.mapper.PermissionMapper">
+
+    <resultMap id="permissionMapper" type="Permission">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sName" column="sname"/>
+        <result property="url" column="url"/>
+        <association property="parent" column="parentid" javaType="Permission" >
+            <id property="id" column="pp.id"/>
+            <result property="name" column="pp.name"/>
+            <result property="sName" column="pp.sname"/>
+            <result property="url" column="pp.url"/>
+        </association>
+        <collection property="children" ofType="Permission" column="id" select="selectChildrenById"/>
+    </resultMap>
+
+    <resultMap id="permissionMapperForMenu" type="com.itany.vo.MenuVO">
+        <id property="menuid" column="id"/>
+        <result property="menuname" column="name"/>
+        <result property="url" column="url"/>
+        <!--<association property="parent" column="parentid" javaType="Permission" >-->
+            <!--<id property="id" column="pp.id"/>-->
+            <!--<result property="name" column="pp.name"/>-->
+            <!--<result property="sName" column="pp.sname"/>-->
+            <!--<result property="url" column="pp.url"/>-->
+        <!--</association>-->
+        <collection property="menus" ofType="com.itany.vo.MenuVO" column="id" select="selectChildrenByIdForMenu"/>
+    </resultMap>
+
+    <sql id="permissionSql">
+      p.id,
+      p.name,
+      p.sName,
+      p.url,
+      pp.id 'pp.id',
+      pp.name 'pp.name',
+      pp.sname 'pp.sname',
+      pp.url 'pp.url'
+    </sql>
+
+    <select id="selectByConditions" resultMap="permissionMapper">
+        select
+            <include refid="permissionSql"/>
+        from
+          t_permission p
+        left join
+          t_permission pp
+        on
+          p.parentid = pp.id
+        <where>
+            <if test="null != parentName and '' != parentName">
+                <bind name="parentName" value="'%'+_parameter.parentName+'%'"/>
+                and pp.name like #{parentName}
+            </if>
+            <if test="null != name and '' != name ">
+                <bind name="name" value="'%'+_parameter.name+'%'"/>
+                and p.name like #{name}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByIdLikely" resultMap="permissionMapper">
+      select
+        id,name,sName,url
+      from
+        t_permission
+
+      <where>
+          <if test="null != id and '' != id">
+              and id = #{id}
+          </if>
+      </where>
+    </select>
+
+    <select id="selectByUserId" resultMap="permissionMapperForMenu">
+        select
+          p.id,p.name,p.sName,p.url
+        from
+          t_permission p
+        left join
+          t_role_permission rp
+        on
+          p.id = rp.permissionid
+        left join
+          t_role r
+        on
+          r.id = rp.roleid
+        left join
+          t_user_role ur
+        on
+          ur.roleid = r.id
+        left join
+          t_manager_user mu
+        on
+          mu.id = ur.userid
+        where
+          mu.id = #{userId}
+
+    </select>
+    
+    <select id="selectChildrenById" resultMap="permissionMapper">
+        select
+          id,name,sName,url
+        from
+          t_permission
+        where
+          parentid = #{id}
+    </select>
+
+    <select id="selectChildrenByIdForMenu" resultMap="permissionMapperForMenu">
+        select
+          id,name,sName,url
+        from
+          t_permission
+        where
+          parentid = #{id}
+    </select>
+
+    <select id="selectAllParentPermissions" resultType="Permission">
+        select
+          id,name
+        from
+          t_permission
+        where
+          parentid is null
+    </select>
+
+    <update id="updateByConditions" >
+        update
+          t_permission
+        <set>
+            <if test="null != name and '' != name">
+                name = #{name},
+            </if>
+            <if test="null != url and '' != url">
+                url = #{url},
+            </if>
+            <if test="null != sName and '' != sName">
+                sname = #{sName},
+            </if>
+            <if test="null != parentId and '' != parentId">
+                parentid = #{parentId},
+            </if>
+        </set>
+        where
+          id = #{id}
+    </update>
+
+
+</mapper>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>审核列表(供应商)</title>
+    <link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+    <script type="text/javascript" src="easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+
+    <script>
+        function test(id){
+
+            $.ajax({
+                type:'post',
+                url:'/manager/book/findById/'+id,
+                dataType:'json',
+                success:function (result) {
+                    console.log(result.data);
+                    if(result.success){
+                        let book = result.data;
+                        $("#bookName").val(book.bookName);
+                        $("#type").val(book.bookType.typeText);
+                        $("#ISBN").val(book.iSBN);
+                        $("#price").val(book.price);
+                        $("#groupPrice").val(book.groupPrice);
+                        $("#number").val(book.number);
+                        $("#layout").val(book.layout);
+                        $("#register").val(book.register);
+                        $("#weight").val(book.weight);
+                        $("#bookIntroduce").html(book.bookIntroduce);
+                        $("#authorIntroduce").html(book.authorIntroduce);
+                        $("#image").attr('src','http://localhost:8080'+book.imgUrl);
+                    }
+                }
+            });
+
+            $("#showBook").dialog({
+                title: '书籍详情',
+                width: 700,
+                height: 500,
+                closed: false,
+                cache: false,
+                href: '',
+                modal: true
+            });
+
+
+        }
+    </script>
+
+
+
+	<script th:inline="javascript">
+	    //工具栏
+	    var toolbar = [{
+	        text: '添加',
+	        iconCls: 'icon-edit',
+	        handler: function () {
+	            //点击添加按钮后打开dialog
+                $.ajax({
+                   type:"post",
+                   url:"/manager/bookType/findThirdLevelTypes",
+                   dataType:"json",
+                   success:function (result) {
+                       if(result.success){
+                           $('#bookType').combobox({
+                               data:result.data,
+                               prompt:'请选择书籍类别',
+                               valueField:'id',
+                               textField:'typeText'
+                           });
+                       }
+                   }
+                });
+
+	            $('#dd').dialog('open');
+	        }
+	    }];
+
+
+
+	   $(function(){
+	       let supplierId = [[${session.user.supplierId}]];
+
+	       $('#booklist').datagrid({  
+				title:'审核列表',
+				iconCls:'icon-save',
+				url:'/manager/examine/findBySupplierId/'+supplierId,
+				columns:[
+				    [
+					{field:'title',title:'审核标题',width:100,align:'center'},
+					{field:'info',title:'审核备注',width:200,align:'center'},
+					{field:'flag',title:'审核状态',width:80,align:'center',formatter:function (value,row,index) {
+                            if(value == 0){
+                                return '待审核';
+                            }
+                            if(value == 1){
+                                return '审核通过';
+                            }
+                            if(value == 2){
+                                return '审核不通过';
+                            }
+                        }},
+                    {field:'info',title:'审核详情',width:200,align:'center'},
+					{field:'book',title:'书籍详情',width:200,align:'center',formatter:function(value,row,index){
+
+					          return "<a href='javascript:;' onclick='test("+value.id+")'>查看</a>";
+					}}					
+				]
+                ],
+				toolbar: toolbar,  
+				pagination: true,//表示在datagrid设置分页              
+               	pageSize: 5,
+				singleSelect:true,
+                pageList: [5,10,20]
+			});
+
+
+		 //初始化查询栏
+		 $("#submit_search").linkbutton({ iconCls: 'icon-search', plain: true })
+            .click(function () {
+                $('#booklist').datagrid({
+                    queryParams: {
+                        bookName: $('#bookNameForSearch').val(),
+                        ISBN: $('#ISBNForSearch').val()
+                    }
+                });   //点击搜索
+            });
+
+
+          //添加书本审核
+         $('#dd').dialog({
+			    title: '添加书本',
+			    width: 700,
+			    height: 500,
+			    closed: true,
+			    cache: false,
+			    href: '',
+			    modal: true,
+			    iconCls: 'icon-save',
+                buttons: [{
+                    text:'提交',
+                    iconCls:'icon-ok',
+                    handler:function(){
+
+                        let form = $("#ff")[0];
+                        let formData = new FormData(form);
+                        $.ajax({
+                            url:'/manager/book/sendToCheck',
+                            type:'post',
+                            data:formData,
+                            dataType:"json",
+                            contentType:false, // 告诉jquery不要设置content-Type头
+                            processData:false,//告诉jquery 不要去处理请求参数 url-encode
+                            success:function(data){
+                                if(data.success){
+                                    $('#dd').dialog('close');
+                                    $('#booklist').datagrid('reload');
+                                }
+                            }
+                        })
+                    }
+                },{
+                    text:'关闭',
+                    handler:function(){
+                        $('#dd').dialog('close');
+                        $('#booklist').datagrid('reload');
+                    }
+                }]
+			});
+	   });
+	</script>
+
+
+</head>
+<body>
+   <form name="searchform" method="post" action="" id ="searchform">
+    <td width="70" height="30"><strong>审核查询：</strong></td>
+    <td height="30">
+        <input type="text" id="bookNameForSearch" name="bookName" size=20 placeholder="书籍名称"/>
+        <input type="text" id="ISBNForSearch" name="ISBN" size=20 placeholder="ISBN"/>
+    </td>
+	<td>
+	  <button id="submit_search" type="button">查询</button>
+	</td>
+  </form>
+  <table id="booklist"></table>
+    <div id="dd"><div align="center" style="margin-top: 30px">
+        <form id="ff" method="post">
+            <input type="hidden" name="supplierId" th:value="${session.user.supplierId}">
+            <div style="margin-bottom:20px">
+                <input class="easyui-textbox"  name="bookName" style="width:50%" data-options="label:'书籍名称:',required:true">
+            </div>
+            <div style="margin-bottom:20px">
+                书籍类别：<input id="bookType" name="typeId" value="请选择书籍类别">
+            </div>
+			 <div style="margin-bottom:20px">
+                <input class="easyui-textbox" name="ISBN" style="width:50%" data-options="label:'ISBN:',required:true">
+            </div>
+            <div style="margin-bottom:20px">
+                <input class="easyui-textbox" name="price" style="width:50%" data-options="label:'单价:',required:true">
+            </div>
+			<div style="margin-bottom:20px">
+                <input class="easyui-textbox" name="number" style="width:50%" data-options="label:'数量:',required:true">
+            </div>
+            <div style="margin-bottom:20px">
+                <input class="easyui-textbox" name="groupPrice" style="width:50%" data-options="label:'团购价:',required:true">
+            </div>
+			 <div style="margin-bottom:20px">
+                <input class="easyui-textbox" name="layout" style="width:50%" data-options="label:'版次:',required:true">
+            </div>
+
+			<div style="margin-bottom:20px">
+                <input class="easyui-textbox" name="register" style="width:50%" data-options="label:'册数:',required:true">
+            </div>
+			<div style="margin-bottom:20px">
+                <input class="easyui-textbox" name="weight" style="width:50%" data-options="label:'重量:',required:true">
+            </div>
+            <div style="margin-bottom:20px">
+                <input class="easyui-textbox" name="bookIntroduce" style="width:50%;height:60px" data-options="label:'书籍简介:',multiline:true">
+            </div>
+            <div style="margin-bottom:20px">
+                <input class="easyui-textbox" name="authorIntroduce" style="width:50%;height:60px" data-options="label:'作者简介:',multiline:true">
+            </div>
+             <div style="margin-bottom:20px">
+               封面图片:&nbsp;&nbsp;&nbsp;&nbsp; <input name="file"  type="file"/>
+            </div>
+        </form>
+       </div>
+    </div>
+
+   <div style="display: none" id="showBook">
+       <div align="center" style="margin-top: 30px"><br/>
+           书籍名称：<input readonly="readonly" id="bookName"><br/>
+           书籍类别：<input readonly="readonly" id="type"><br/>
+           ISBN：<input readonly="readonly" id="ISBN"><br/>
+           单价：<input readonly="readonly" id="price"><br/>
+           团购价：<input readonly="readonly" id="groupPrice"><br/>
+           数量：<input readonly="readonly" id="number"><br/>
+           版次：<input readonly="readonly" id="layout"><br/>
+           册数：<input readonly="readonly" id="register"><br/>
+           重量：<input readonly="readonly" id="weight"><br/>
+           书籍简介：<textarea id="bookIntroduce" readonly="readonly"></textarea><br/>
+           作者简介：<textarea id="authorIntroduce" readonly="readonly"></textarea><br/>
+           封面图片：<img id="image" src="" alt="图片加载失败"><br/>
+       </div>
+   </div>
+</body>
+</html>

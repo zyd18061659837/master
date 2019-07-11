@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" addBOMForNewFiles="with NO BOM">
+    <file url="file://$PROJECT_DIR$/book-book-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/book-book-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/book-manager/manager-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/book-mapper" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/book-order-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/book-order-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/book-user-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/book-user-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/book-user-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/book-utils" charset="UTF-8" />
+  </component>
+</project>

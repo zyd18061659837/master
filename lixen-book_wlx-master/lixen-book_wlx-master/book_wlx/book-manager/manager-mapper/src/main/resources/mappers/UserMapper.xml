@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itany.mapper.UserMapper">
+
+	<resultMap id="ManagerUserMapper" type="ManagerUser">
+		<id property="id" column="id"></id>
+		<result property="username" column="username"></result>
+		<result property="password" column="password"></result>
+		<result property="supplierId" column="supplierid"></result>
+		<collection property="roles" column="r.id" ofType="Role">
+			<id property="id" column="r.id"/>
+			<result property="name" column="r.name"/>
+		</collection>
+		<!--<result property="roleName" column="r.name"></result>-->
+	</resultMap>
+
+	<sql id="UserColumn">
+		mu.id,
+		mu.username,
+		mu.password,
+		mu.supplierid,
+		r.id 'r.id',
+		r.name 'r.name'
+	</sql>
+
+
+	<select id="selectByUsernameAndPassword" resultMap="ManagerUserMapper">
+		select
+			id,
+			username,
+			password,
+			supplierid
+		from
+			t_manager_user
+		where
+			username=#{username} and password = #{password}
+	</select>
+
+	<select id="selectByConditions" resultMap="ManagerUserMapper">
+		select
+		  <include refid="UserColumn"/>
+		from
+		  t_manager_user mu
+		left join
+		  t_user_role ur
+		on
+		  mu.id = ur.userid
+		left join
+		  t_role r
+		on
+		  r.id = ur.roleid
+		<where>
+			<if test="null != username and '' != username">
+				<bind name="username" value="'%'+_parameter.username+'%'"/>
+				and username like #{username}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertManagerUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		insert into
+			t_manager_user
+			(username,password)
+		values
+			(#{username},#{password})
+	</insert>
+
+	<update id="updateManagerUser" >
+		update
+			t_manager_user
+		<set>
+			<if test="null != username and '' != username">
+				username = #{username},
+			</if>
+			<if test="null != password and '' != password">
+				password = #{password},
+			</if>
+		</set>
+		where
+			id = #{id}
+	</update>
+	
+</mapper>

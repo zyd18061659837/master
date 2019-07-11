@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>书城首页</title>
+    <!-- 设置360浏览器渲染引擎 -->
+    <meta name="renderer" content="webkit">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="stylesheet" type="text/css" href="amazeui/css/amazeui.css" />
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="amazeui/js/amazeui.js"></script>
+    <!-- 全局CSS -->
+    <link rel="stylesheet" href="./css/base.css">
+    <!-- topbar css -->
+    <link rel="stylesheet" href="./css/topbar.css">
+    <!-- 当前页面 css -->
+    <link rel="stylesheet" type="text/css" href="css/newBooks.css" />
+    <!-- topbar js -->
+    <script src="./js/common/topbar.js"></script>
+    <!-- 书本列表 一二级菜单显示联动JS -->
+    <script src="./js/common/topbar-onemenu.js"></script>
+    <!-- 当前页面 js -->    
+    <script src="./js/pages/newBooks.js"></script>
+</head>
+
+<body>
+    <!-- nav-start -->
+    <header class="am-topbar">
+        <div class="am-container base-nav-font">
+            <div class="am-fl base-nav-title">
+                <em>欢迎光临网博图书网</em>
+                <a href="#">请登录</a>
+                <a href="#">免费注册</a>
+            </div>
+            <ol class="am-fr base-nav-list">
+                <li>
+                    <a href="#">购物车</a>
+                </li>
+                <li>
+                    <a href="#">我的订单</a>
+                </li>
+                <li>
+                    <div class="base-menu-list">
+                        <a>个人账户
+                            <span class="am-icon-caret-down"></span>
+                        </a>
+                        <div class="base-menu-list-content">
+                            <ul>
+                                <li>
+                                    <a href="#">个人信息</a>
+                                </li>
+                                <li>
+                                    <a href="#">收货地址</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </header>
+    <!-- nav-end -->
+    <!-- search-end -->
+    <div class="am-container base-search">
+        <div class="am-g">
+            <div class="am-u-sm-3 base-logo">
+                <img src="./img/logo.png">
+            </div>
+            <div class="am-u-sm-6 ">
+                <div class="am-input-group am-input-group-warning">
+                    <input type="text" class="am-form-field am-round">
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-warning am-round" type="button">搜索</button>
+                    </span>
+                </div>
+                <div class="base-world-key">
+                    <ol class="am-breadcrumb am-breadcrumb-slash">
+                        <li>
+                            <a href="#">史蒂芬·霍金</a>
+                        </li>
+                        <li>
+                            <a href="#">刺杀骑士团长</a>
+                        </li>
+                        <li>
+                            <a href="#">蒙台梭利育儿全书</a>
+                        </li>
+                        <li>
+                            <a href="#">阿加莎·克里斯蒂</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="am-u-sm-3 am-u-end base-tip">
+                <img src="./img/tip.png">
+            </div>
+        </div>
+    </div>
+    <!-- search-end -->
+    <!-- shopNav-start -->
+    <div class="topbar-shop-nav">
+        <div class="am-container">
+            <div class="am-u-sm-2 topbar-shop-types" id="typesOneMenu">
+                <h4>图书分类</h4>
+            </div>
+            <div class="am-u-sm-10 am-u-end topbar-shop-class">
+                <!-- 最多展示 9 个 -->
+                <ul class="am-avg-sm-9 am-thumbnails">
+                    <li><a href="./index.html">首页</a></li>
+                    <li><a href="./sellBook.html">淘书团</a></li>
+                    <li><a href="./bestselling.html">畅销榜</a></li>
+                    <li class="topbar-active"><a href="./newBooks.html">新上架</a></li>
+                    <li><a href="./platformSelf.html">平台自营</a></li>
+                    <li><a href="./pressList.html">出版社直销</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- shopNav-end -->
+    <!-- topbar content start -->
+    <div class="am-container topbar-book-content">
+        <!-- books types start -->
+        <div class="am-u-sm-2 topbar-book-types">
+            <!-- ID 为鼠标移入时 加载对应分类的子分类 -->
+            <ul class="am-list" id="bookTypesMenu">
+                <!-- 
+						页面分类 最多被迭代 6 次  （默认只能展示六项一级分类）
+						一级分类 数据 超量 ，会导致页面布局混乱
+								数据 不足 ，不会影响页面布局
+						data-types 属性用于事件区分 分类
+					-->
+                <li data-type="literature">
+                    <p>文学
+                        <span class="am-icon-angle-right am-fr"></span>
+                    </p>
+                    <ol class="am-breadcrumb topbar-slash">
+                        <!-- 子分类展示 最多显示2行，超出的部分会被自动隐藏 -->
+                        <li>
+                            <a href="#">小说</a>
+                        </li>
+                        <li>
+                            <a href="#">文集</a>
+                        </li>
+                        <li>
+                            <a href="#">青春文学</a>
+                        </li>
+                        <li>
+                            <a href="#">中国散文</a>
+                        </li>
+                        <li>
+                            <a href="#">外国散文</a>
+                        </li>
+                        <li>
+                            <a href="#">悬疑推理</a>
+                        </li>
+                        <li>
+                            <a href="#">世界名著</a>
+                        </li>
+                    </ol>
+                </li>
+                <li data-type="sciences">
+                    <p>社科
+                        <span class="am-icon-angle-right am-fr"></span>
+                    </p>
+                    <ol class="am-breadcrumb topbar-slash">
+                        <li>
+                            <a href="#">历史</a>
+                        </li>
+                        <li>
+                            <a href="#">哲学/宗教</a>
+                        </li>
+                        <li>
+                            <a href="#">政治军事</a>
+                        </li>
+                        <li>
+                            <a href="#">传记</a>
+                        </li>
+                        <li>
+                            <a href="#">文化</a>
+                        </li>
+                        <li>
+                            <a href="#">古籍</a>
+                        </li>
+                        <li>
+                            <a href="#">管理</a>
+                        </li>
+                        <li>
+                            <a href="#">经济</a>
+                        </li>
+                    </ol>
+                </li>
+                <li data-type="juvenile">
+                    <p>少儿
+                        <span class="am-icon-angle-right am-fr"></span>
+                    </p>
+                    <ol class="am-breadcrumb topbar-slash">
+                        <li>
+                            <a href="#">中国儿童文学</a>
+                        </li>
+                        <li>
+                            <a href="#">外国儿童文学</a>
+                        </li>
+                        <li>
+                            <a href="#">科普读物</a>
+                        </li>
+                        <li>
+                            <a href="#">动漫/卡通</a>
+                        </li>
+                        <li>
+                            <a href="#">幼儿启蒙</a>
+                        </li>
+                    </ol>
+
+                </li>
+                <li data-type="art">
+                    <p>艺术
+                        <span class="am-icon-angle-right am-fr"></span>
+                    </p>
+                    <ol class="am-breadcrumb topbar-slash">
+                        <li>
+                            <a href="#">绘画</a>
+                        </li>
+                        <li>
+                            <a href="#">书法篆刻</a>
+                        </li>
+                        <li>
+                            <a href="#">艺术理论</a>
+                        </li>
+                        <li>
+                            <a href="#">摄影</a>
+                        </li>
+                        <li>
+                            <a href="#">音乐</a>
+                        </li>
+                    </ol>
+
+                </li>
+                <li data-type="life">
+                    <p>生活
+                        <span class="am-icon-angle-right am-fr"></span>
+                    </p>
+                    <ol class="am-breadcrumb topbar-slash">
+                        <li>
+                            <a href="#">美食</a>
+                        </li>
+                        <li>
+                            <a href="#">保健/心理健康</a>
+                        </li>
+                        <li>
+                            <a href="#">旅游</a>
+                        </li>
+                        <li>
+                            <a href="#">家庭教育</a>
+                        </li>
+                        <li>
+                            <a href="#">家居休闲</a>
+                        </li>
+                    </ol>
+                </li>
+                <li data-type="culture">
+                    <p>文教
+                        <span class="am-icon-angle-right am-fr"></span>
+                    </p>
+                    <ol class="am-breadcrumb topbar-slash">
+                        <li>
+                            <a href="#">中小学教辅</a>
+                        </li>
+                        <li>
+                            <a href="#">外语</a>
+                        </li>
+                        <li>
+                            <a href="#">教材</a>
+                        </li>
+                        <li>
+                            <a href="#">医学</a>
+                        </li>
+                        <li>
+                            <a href="#">计算机</a>
+                        </li>
+                        <li>
+                            <a href="#">自然科学</a>
+                        </li>
+                    </ol>
+                </li>
+                <!-- 必须存在 不可被迭代 -->
+                <li>
+                    <span>全部商品分类……</span>
+                </li>
+            </ul>
+            <div id="typesDetail" class="topbar-types-detail">
+                <!-- JS 生成 -->
+                <!-- 页面元素结构 参看 index.html 页面-->
+            </div>
+        </div>
+        <!-- books types end -->
+    </div>
+    <!-- topbar content end -->
+    
+    <!-- 新书上架 content start -->
+    <div class="nb-bg">
+        <div class="am-container">
+            <div class="am-u-sm-12 am-u-end base-ad">
+                <img src="./img/bookTypesTop.jpg" alt="">
+            </div>
+            
+            <div class="am-u-sm-12 am-u-end nb-sortbar">
+                <ul id="bookSort">
+                    <li class="on">
+                        <i data-sort="volume">销量</i>
+                    </li>
+                    <li>
+                        <i data-sort="discount">折扣<span class="icon"></span></i>
+                    </li>
+                    <li>
+                        <i data-sort="price">定价<span class="icon"></span></i>
+                    </li>
+                    <li>
+                        <i data-sort="sell">售价<span class="icon"></span></i>
+                    </li>
+                    <li>
+                        <i data-sort="press">出版社<span class="icon"></span></i>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="am-u-sm-12 am-u-end nb-list">
+                <ul class="am-avg-sm-5 am-thumbnails">
+
+                    <li class="book">
+                        <div class="cover">
+                            <a href="#" target="_blank">
+                                <img src="./img/newbook/newbook01.jpg">
+                            </a>
+                        </div>
+                        <div class="info">
+                            <div class="priceWrap">
+                                <span class="sellPrice">¥54.6</span>
+                                <span class="discount">(2.1折)</span>
+                                <del class="price">¥260.0</del>
+                            </div>
+                            <h2 class="bookName">
+                                <a href="#" target="_blank">中国百年历史名</a>
+                            </h2>
+                            <div class="otherInfo">
+                                <b>林声主编</b>
+                                <i>/</i>
+                                <b>辽宁教育出版社</b>
+                            </div>
+                            <div class="activeIcon">
+                                
+                            </div>
+                            <div class="sellBtn">
+                                <span>加入购物车</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="book">
+                        <div class="cover">
+                            <a href="#" target="_blank">
+                                <img src="./img/newbook/newbook01.jpg">
+                            </a>
+                        </div>
+                        <div class="info">
+                            <div class="priceWrap">
+                                <span class="sellPrice">¥54.6</span>
+                                <span class="discount">(2.1折)</span>
+                                <del class="price">¥260.0</del>
+                            </div>
+                            <h2 class="bookName">
+                                <a href="#" target="_blank">中国百年历史名</a>
+                            </h2>
+                            <div class="otherInfo">
+                                <b>林声主编</b>
+                                <i>/</i>
+                                <b>辽宁教育出版社</b>
+                            </div>
+                            <div class="activeIcon">
+                                <a class="am-badge am-badge-success am-radius">每满69减30</a>
+                            </div>
+                            <div class="sellBtn">
+                                <span>加入购物车</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="book">
+                        <div class="cover">
+                            <a href="#" target="_blank">
+                                <img src="./img/newbook/newbook01.jpg">
+                            </a>
+                        </div>
+                        <div class="info">
+                            <div class="priceWrap">
+                                <span class="sellPrice">¥54.6</span>
+                                <span class="discount">(2.1折)</span>
+                                <del class="price">¥260.0</del>
+                            </div>
+                            <h2 class="bookName">
+                                <a href="#" target="_blank">中国百年历史名</a>
+                            </h2>
+                            <div class="otherInfo">
+                                <b>林声主编</b>
+                                <i>/</i>
+                                <b>辽宁教育出版社</b>
+                            </div>
+                            <div class="activeIcon">
+                                
+                            </div>
+                            <div class="sellBtn">
+                                <span>加入购物车</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="book">
+                        <div class="cover">
+                            <a href="#" target="_blank">
+                                <img src="./img/newbook/newbook01.jpg">
+                            </a>
+                        </div>
+                        <div class="info">
+                            <div class="priceWrap">
+                                <span class="sellPrice">¥54.6</span>
+                                <span class="discount">(2.1折)</span>
+                                <del class="price">¥260.0</del>
+                            </div>
+                            <h2 class="bookName">
+                                <a href="#" target="_blank">中国百年历史名</a>
+                            </h2>
+                            <div class="otherInfo">
+                                <b>林声主编</b>
+                                <i>/</i>
+                                <b>辽宁教育出版社</b>
+                            </div>
+                            <div class="activeIcon">
+                                
+                            </div>
+                            <div class="sellBtn">
+                                <span>加入购物车</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="book">
+                        <div class="cover">
+                            <a href="#" target="_blank">
+                                <img src="./img/newbook/newbook01.jpg">
+                            </a>
+                        </div>
+                        <div class="info">
+                            <div class="priceWrap">
+                                <span class="sellPrice">¥54.6</span>
+                                <span class="discount">(2.1折)</span>
+                                <del class="price">¥260.0</del>
+                            </div>
+                            <h2 class="bookName">
+                                <a href="#" target="_blank">中国百年历史名</a>
+                            </h2>
+                            <div class="otherInfo">
+                                <b>林声主编</b>
+                                <i>/</i>
+                                <b>辽宁教育出版社</b>
+                            </div>
+                            <div class="activeIcon">
+                            
+                            </div>
+                            <div class="sellBtn">
+                                <span>加入购物车</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="book">
+                        <div class="cover">
+                            <a href="#" target="_blank">
+                                <img src="./img/newbook/newbook01.jpg">
+                            </a>
+                        </div>
+                        <div class="info">
+                            <div class="priceWrap">
+                                <span class="sellPrice">¥54.6</span>
+                                <span class="discount">(2.1折)</span>
+                                <del class="price">¥260.0</del>
+                            </div>
+                            <h2 class="bookName">
+                                <a href="#" target="_blank">中国百年历史名</a>
+                            </h2>
+                            <div class="otherInfo">
+                                <b>林声主编</b>
+                                <i>/</i>
+                                <b>辽宁教育出版社</b>
+                            </div>
+                            <div class="activeIcon">
+                                
+                            </div>
+                            <div class="sellBtn">
+                                <span>加入购物车</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="book">
+                        <div class="cover">
+                            <a href="#" target="_blank">
+                                <img src="./img/newbook/newbook01.jpg">
+                            </a>
+                        </div>
+                        <div class="info">
+                            <div class="priceWrap">
+                                <span class="sellPrice">¥54.6</span>
+                                <span class="discount">(2.1折)</span>
+                                <del class="price">¥260.0</del>
+                            </div>
+                            <h2 class="bookName">
+                                <a href="#" target="_blank">中国百年历史名</a>
+                            </h2>
+                            <div class="otherInfo">
+                                <b>林声主编</b>
+                                <i>/</i>
+                                <b>辽宁教育出版社</b>
+                            </div>
+                            <div class="activeIcon">
+                                
+                            </div>
+                            <div class="sellBtn">
+                                <span>加入购物车</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="book">
+                        <div class="cover">
+                            <a href="#" target="_blank">
+                                <img src="./img/newbook/newbook01.jpg">
+                            </a>
+                        </div>
+                        <div class="info">
+                            <div class="priceWrap">
+                                <span class="sellPrice">¥54.6</span>
+                                <span class="discount">(2.1折)</span>
+                                <del class="price">¥260.0</del>
+                            </div>
+                            <h2 class="bookName">
+                                <a href="#" target="_blank">中国百年历史名</a>
+                            </h2>
+                            <div class="otherInfo">
+                                <b>林声主编</b>
+                                <i>/</i>
+                                <b>辽宁教育出版社</b>
+                            </div>
+                            <div class="activeIcon">
+                                
+                            </div>
+                            <div class="sellBtn">
+                                <span>加入购物车</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="book">
+                        <div class="cover">
+                            <a href="#" target="_blank">
+                                <img src="./img/newbook/newbook01.jpg">
+                            </a>
+                        </div>
+                        <div class="info">
+                            <div class="priceWrap">
+                                <span class="sellPrice">¥54.6</span>
+                                <span class="discount">(2.1折)</span>
+                                <del class="price">¥260.0</del>
+                            </div>
+                            <h2 class="bookName">
+                                <a href="#" target="_blank">中国百年历史名</a>
+                            </h2>
+                            <div class="otherInfo">
+                                <b>林声主编</b>
+                                <i>/</i>
+                                <b>辽宁教育出版社</b>
+                            </div>
+                            <div class="activeIcon">
+                                
+                            </div>
+                            <div class="sellBtn">
+                                <span>加入购物车</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="book">
+                        <div class="cover">
+                            <a href="#" target="_blank">
+                                <img src="./img/newbook/newbook01.jpg">
+                            </a>
+                        </div>
+                        <div class="info">
+                            <div class="priceWrap">
+                                <span class="sellPrice">¥54.6</span>
+                                <span class="discount">(2.1折)</span>
+                                <del class="price">¥260.0</del>
+                            </div>
+                            <h2 class="bookName">
+                                <a href="#" target="_blank">中国百年历史名</a>
+                            </h2>
+                            <div class="otherInfo">
+                                <b>林声主编</b>
+                                <i>/</i>
+                                <b>辽宁教育出版社</b>
+                            </div>
+                            <div class="activeIcon">
+                                
+                            </div>
+                            <div class="sellBtn">
+                                <span>加入购物车</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="book">
+                        <div class="cover">
+                            <a href="#" target="_blank">
+                                <img src="./img/newbook/newbook01.jpg">
+                            </a>
+                        </div>
+                        <div class="info">
+                            <div class="priceWrap">
+                                <span class="sellPrice">¥54.6</span>
+                                <span class="discount">(2.1折)</span>
+                                <del class="price">¥260.0</del>
+                            </div>
+                            <h2 class="bookName">
+                                <a href="#" target="_blank">中国百年历史名</a>
+                            </h2>
+                            <div class="otherInfo">
+                                <b>林声主编</b>
+                                <i>/</i>
+                                <b>辽宁教育出版社</b>
+                            </div>
+                            <div class="activeIcon">
+                                
+                            </div>
+                            <div class="sellBtn">
+                                <span>加入购物车</span>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="am-u-sm-12 am-u-end base-ad">
+                <ul class="am-pagination am-pagination-centered">
+                    <li class="am-disabled"><a href="#">上一页</a></li>
+                    <li class="am-active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">下一页</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 淘书团 content end -->
+    <!-- foot start -->		
+    <div class="base-shop-foot">
+        <p>© 2018 南京网博优壹 by 项目组-chw <br>2018年03月21日23:20:50</p>
+    </div>
+    <!-- foot end -->	
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.itany.mapper.BookMapper">
+
+    <resultMap id="bookMapper" type="Book">
+        <id property="id" column="id"></id>
+        <result property="bookName" column="bookname"></result>
+        <result property="author" column="b.author"></result>
+
+        <result property="recommend" column="recommend"></result>
+        <result property="flag" column="flag"></result>
+        <result property="imgUrl" column="imgurl"></result>
+        <result property="number" column="number"></result>
+        <result property="createTime" column="createtime"></result>
+        <result property="catalog" column="catalog"></result>
+        <result property="authorIntroduce" column="authorintroduce"></result>
+        <result property="bookIntroduce" column="bookintroduce"></result>
+        <result property="weight" column="weight"></result>
+        <result property="register" column="register"></result>
+        <result property="printingNumber" column="printingnumber"></result>
+        <result property="publishDate" column="publishdate"></result>
+        <result property="groupPrice" column="groupprice"></result>
+        <result property="price" column="price"></result>
+        <result property="format" column="format"></result>
+        <result property="pageNumber" column="pagenumber"></result>
+        <result property="ISBN" column="ISBN"></result>
+        <result property="barcode" column="barcode"></result>
+        <result property="layout" column="layout"></result>
+        <result property="supplierName" column="s.name"></result>
+        <association property="press" column="pressid" javaType="Press">
+            <id column="p.id" property="id"></id>
+            <result property="name" column="p.name"></result>
+            <result property="flag" column="p.flag"></result>
+        </association>
+        <association property="bookType" column="typeid" javaType="BookType">
+            <id property="id" column="bt.id"></id>
+            <result property="typeText" column="typetext"></result>
+        </association>
+    </resultMap>
+
+    <sql id="bookSql">
+      b.publishdate,
+      b.id,
+      b.bookname,
+      b.author 'b.author',
+      b.groupprice,
+      b.price,
+      b.ISBN,
+      b.layout,
+      b.register,
+      b.weight,
+      b.bookintroduce,
+      b.authorintroduce,
+      b.createtime,
+      b.number,
+      b.imgurl,
+      b.flag,
+      bt.id 'bt.id',
+      bt.typetext,
+      p.id 'p.id',
+      p.name 'p.name',
+      p.flag 'p.flag',
+      s.name 's.name'
+    </sql>
+
+    <select id="selectAll"  resultMap="bookMapper">
+        select
+          <include refid="bookSql"/>
+        from
+          t_book b
+        left join
+          t_book_type bt
+        on
+          b.typeid = bt.id
+        left join
+          t_press p
+        on
+          p.id = b.pressid
+        left join
+          t_book_supplier bs
+        on
+          bs.bookid = b.id
+        left join
+          t_supplier s
+        on
+          bs.supplierid = s.id
+        <where>
+            <if test="null != bookName and '' != bookName">
+                <bind name="bookName" value="'%'+_parameter.bookName+'%'"/>
+                and b.bookname like #{bookName}
+            </if>
+
+            <if test="null != ISBN and '' != ISBN">
+                <bind name="ISBN" value="'%'+_parameter.ISBN+'%'"/>
+                and b.ISBN like #{ISBN}
+            </if>
+
+            <if test="null != bookIntroduce and '' != bookIntroduce">
+                <bind name="bookIntroduce" value="'%'+_parameter.bookIntroduce+'%'"/>
+                and b.bookIntroduce like #{bookIntroduce}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

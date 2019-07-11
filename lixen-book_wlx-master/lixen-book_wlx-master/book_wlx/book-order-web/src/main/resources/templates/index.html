@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery.min.js"></script>
+    <script>
+         var websocket =null;
+         if('WebSocket' in window){
+             websocket = new WebSocket("ws://localhost:9007/aa/1");
+         }
+
+         websocket.onmessage=function (event) {
+              if("1"==event.data){
+                 window.location.href="http://localhost:9007/showsuccess";
+              }
+         }
+    </script>
+</head>
+<body>
+    <h1>扫码支付</h1>
+    <img src="/order/createImg">
+</body>
+</html>

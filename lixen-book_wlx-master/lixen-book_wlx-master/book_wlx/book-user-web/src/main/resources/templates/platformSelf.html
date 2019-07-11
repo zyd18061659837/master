@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>书城首页</title>
+    <!-- 设置360浏览器渲染引擎 -->
+    <meta name="renderer" content="webkit">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="stylesheet" type="text/css" href="amazeui/css/amazeui.css" />
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="amazeui/js/amazeui.js"></script>
+    <!-- 全局CSS -->
+    <link rel="stylesheet" href="./css/base.css">
+    <!-- topbar css -->
+    <link rel="stylesheet" href="./css/topbar.css">
+    <!-- 当前页面 css -->
+    <link rel="stylesheet" type="text/css" href="css/bestSelling.css" />
+    <!-- topbar js -->
+    <script src="./js/common/topbar.js"></script>
+    <!-- 书本列表 一二级菜单显示联动JS -->
+    <script src="./js/common/topbar-onemenu.js"></script>
+    <!-- 当前页面 js -->    
+    <script src="./js/pages/platformSelf.js"></script>
+</head>
+
+<body>
+    <!-- nav-start -->
+    <header class="am-topbar">
+        <div class="am-container base-nav-font">
+            <div class="am-fl base-nav-title">
+                <em>欢迎光临网博图书网</em>
+                <a href="#">请登录</a>
+                <a href="#">免费注册</a>
+            </div>
+            <ol class="am-fr base-nav-list">
+                <li>
+                    <a href="#">购物车</a>
+                </li>
+                <li>
+                    <a href="#">我的订单</a>
+                </li>
+                <li>
+                    <div class="base-menu-list">
+                        <a>个人账户
+                            <span class="am-icon-caret-down"></span>
+                        </a>
+                        <div class="base-menu-list-content">
+                            <ul>
+                                <li>
+                                    <a href="#">个人信息</a>
+                                </li>
+                                <li>
+                                    <a href="#">收货地址</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </header>
+    <!-- nav-end -->
+    <!-- search-end -->
+    <div class="am-container base-search">
+        <div class="am-g">
+            <div class="am-u-sm-3 base-logo">
+                <img src="./img/logo.png">
+            </div>
+            <div class="am-u-sm-6 ">
+                <div class="am-input-group am-input-group-warning">
+                    <input type="text" class="am-form-field am-round">
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-warning am-round" type="button">搜索</button>
+                    </span>
+                </div>
+                <div class="base-world-key">
+                    <ol class="am-breadcrumb am-breadcrumb-slash">
+                        <li>
+                            <a href="#">史蒂芬·霍金</a>
+                        </li>
+                        <li>
+                            <a href="#">刺杀骑士团长</a>
+                        </li>
+                        <li>
+                            <a href="#">蒙台梭利育儿全书</a>
+                        </li>
+                        <li>
+                            <a href="#">阿加莎·克里斯蒂</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="am-u-sm-3 am-u-end base-tip">
+                <img src="./img/tip.png">
+            </div>
+        </div>
+    </div>
+    <!-- search-end -->
+    <!-- shopNav-start -->
+    <div class="topbar-shop-nav">
+        <div class="am-container">
+            <div class="am-u-sm-2 topbar-shop-types" id="typesOneMenu">
+                <h4>图书分类</h4>
+            </div>
+            <div class="am-u-sm-10 am-u-end topbar-shop-class">
+                <!-- 最多展示 9 个 -->
+                <ul class="am-avg-sm-9 am-thumbnails">
+                    <li><a href="./index.html">首页</a></li>
+                    <li><a href="./sellBook.html">淘书团</a></li>
+                    <li><a href="./bestSelling.html">畅销榜</a></li>
+                    <li><a href="./newBooks.html">新上架</a></li>
+                    <li class="topbar-active"><a href="./platformSelf.html">平台自营</a></li>
+                    <li><a href="./pressList.html">出版社直销</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- shopNav-end -->
+    <!-- topbar content start -->
+    <div class="am-container topbar-book-content">
+        <!-- books types start -->
+        <div class="am-u-sm-2 topbar-book-types">
+            <!-- ID 为鼠标移入时 加载对应分类的子分类 -->
+            <ul class="am-list" id="bookTypesMenu">
+                <!-- 
+						页面分类 最多被迭代 6 次  （默认只能展示六项一级分类）
+						一级分类 数据 超量 ，会导致页面布局混乱
+								数据 不足 ，不会影响页面布局
+						data-types 属性用于事件区分 分类
+					-->
+                <li data-type="literature">
+                    <p>文学
+                        <span class="am-icon-angle-right am-fr"></span>
+                    </p>
+                    <ol class="am-breadcrumb topbar-slash">
+                        <!-- 子分类展示 最多显示2行，超出的部分会被自动隐藏 -->
+                        <li>
+                            <a href="#">小说</a>
+                        </li>
+                        <li>
+                            <a href="#">文集</a>
+                        </li>
+                        <li>
+                            <a href="#">青春文学</a>
+                        </li>
+                        <li>
+                            <a href="#">中国散文</a>
+                        </li>
+                        <li>
+                            <a href="#">外国散文</a>
+                        </li>
+                        <li>
+                            <a href="#">悬疑推理</a>
+                        </li>
+                        <li>
+                            <a href="#">世界名著</a>
+                        </li>
+                    </ol>
+                </li>
+                <li data-type="sciences">
+                    <p>社科
+                        <span class="am-icon-angle-right am-fr"></span>
+                    </p>
+                    <ol class="am-breadcrumb topbar-slash">
+                        <li>
+                            <a href="#">历史</a>
+                        </li>
+                        <li>
+                            <a href="#">哲学/宗教</a>
+                        </li>
+                        <li>
+                            <a href="#">政治军事</a>
+                        </li>
+                        <li>
+                            <a href="#">传记</a>
+                        </li>
+                        <li>
+                            <a href="#">文化</a>
+                        </li>
+                        <li>
+                            <a href="#">古籍</a>
+                        </li>
+                        <li>
+                            <a href="#">管理</a>
+                        </li>
+                        <li>
+                            <a href="#">经济</a>
+                        </li>
+                    </ol>
+                </li>
+                <li data-type="juvenile">
+                    <p>少儿
+                        <span class="am-icon-angle-right am-fr"></span>
+                    </p>
+                    <ol class="am-breadcrumb topbar-slash">
+                        <li>
+                            <a href="#">中国儿童文学</a>
+                        </li>
+                        <li>
+                            <a href="#">外国儿童文学</a>
+                        </li>
+                        <li>
+                            <a href="#">科普读物</a>
+                        </li>
+                        <li>
+                            <a href="#">动漫/卡通</a>
+                        </li>
+                        <li>
+                            <a href="#">幼儿启蒙</a>
+                        </li>
+                    </ol>
+
+                </li>
+                <li data-type="art">
+                    <p>艺术
+                        <span class="am-icon-angle-right am-fr"></span>
+                    </p>
+                    <ol class="am-breadcrumb topbar-slash">
+                        <li>
+                            <a href="#">绘画</a>
+                        </li>
+                        <li>
+                            <a href="#">书法篆刻</a>
+                        </li>
+                        <li>
+                            <a href="#">艺术理论</a>
+                        </li>
+                        <li>
+                            <a href="#">摄影</a>
+                        </li>
+                        <li>
+                            <a href="#">音乐</a>
+                        </li>
+                    </ol>
+
+                </li>
+                <li data-type="life">
+                    <p>生活
+                        <span class="am-icon-angle-right am-fr"></span>
+                    </p>
+                    <ol class="am-breadcrumb topbar-slash">
+                        <li>
+                            <a href="#">美食</a>
+                        </li>
+                        <li>
+                            <a href="#">保健/心理健康</a>
+                        </li>
+                        <li>
+                            <a href="#">旅游</a>
+                        </li>
+                        <li>
+                            <a href="#">家庭教育</a>
+                        </li>
+                        <li>
+                            <a href="#">家居休闲</a>
+                        </li>
+                    </ol>
+                </li>
+                <li data-type="culture">
+                    <p>文教
+                        <span class="am-icon-angle-right am-fr"></span>
+                    </p>
+                    <ol class="am-breadcrumb topbar-slash">
+                        <li>
+                            <a href="#">中小学教辅</a>
+                        </li>
+                        <li>
+                            <a href="#">外语</a>
+                        </li>
+                        <li>
+                            <a href="#">教材</a>
+                        </li>
+                        <li>
+                            <a href="#">医学</a>
+                        </li>
+                        <li>
+                            <a href="#">计算机</a>
+                        </li>
+                        <li>
+                            <a href="#">自然科学</a>
+                        </li>
+                    </ol>
+                </li>
+                <!-- 必须存在 不可被迭代 -->
+                <li>
+                    <span>全部商品分类……</span>
+                </li>
+            </ul>
+            <div id="typesDetail" class="topbar-types-detail">
+                <!-- JS 生成 -->
+                <!-- 页面元素结构 参看 index.html 页面-->
+            </div>
+        </div>
+        <!-- books types end -->
+    </div>
+    <!-- topbar content end -->
+    
+    <!-- 畅销榜 content start -->
+    <div class="cx-bg">
+        <div class="am-container">
+            <div class="am-u-sm-12 am-u-end base-ad">
+                <img src="./img/bookTypesTop.jpg" alt="">
+            </div>
+            <div class="am-u-sm-2 cx-seach">
+                <section class="am-panel am-panel-default">
+                    <header class="am-panel-hd">
+                        <h3 class="am-panel-title">平台自营图书</h3>
+                    </header>
+                    <div class="am-panel-bd cx-best-types">
+                        <!-- id="bestSellingTypes" 用于JS动态为列表添加事件 -->
+                        <ul class="am-list am-list-static" id="platformSelfTypes">
+                            <li>
+                                <dl>
+                                    <dt class="cur">全部</dt>
+                                </dl>
+                            </li>
+                            <li>
+                                <dl>
+                                    <dt>文学类<span>-</span></dt>
+                                    <dd>
+                                        <span>文学</span>
+                                        <span>小说</span>
+                                        <span>青春文学</span>                                     
+                                    </dd>
+                                </dl>
+                            </li>
+                            <li>
+                                <dl>
+                                    <dt>少儿类<span>-</span></dt>
+                                    <dd>
+                                        <span>儿童文学</span>
+                                        <span>绘本</span>
+                                        <span>科普</span>
+                                        <span>其他</span>
+                                    </dd>
+                                </dl>
+                            </li>
+                            <li>
+                                <dl>
+                                    <dt>社科类<span>-</span></dt>
+                                    <dd>
+                                        <span>历史</span>
+                                        <span>政治/哲学</span>
+                                        <span>文化</span>
+                                        <span>社会科学</span>
+                                        <span>经济/管理</span>
+                                        <span>成功励志</span>
+                                        <span>法律</span>
+                                    </dd>
+                                </dl>
+                            </li>
+                            <li>
+                                <dl>
+                                    <dt>艺术类<span>-</span></dt>
+                                    <dd>
+                                        <span>绘画</span>
+                                        <span>书法纂刻</span>
+                                        <span>摄影/设计</span>
+                                        <span>舞台影视艺术</span>
+                                        <span>音乐</span>
+                                        <span>收藏鉴赏</span>
+                                        <span>其它</span>
+                                    </dd>
+                                </dl>
+                            </li>
+                            <li>
+                                <dl>
+                                    <dt>文教类<span>-</span></dt>
+                                    <dd>
+                                        <span>中小学教辅</span>
+                                        <span>外语</span>
+                                        <span>教材</span>
+                                        <span>计算机</span>
+                                        <span>其它</span>
+                                    </dd>
+                                </dl>
+                            </li>
+                            <li>
+                                <dl>
+                                    <dt>生活类<span>-</span></dt>
+                                    <dd>
+                                        <span>美食</span>
+                                        <span>保健/心理健康</span>
+                                        <span>旅游</span>
+                                        <span>孕产育儿</span>
+                                        <span>其它</span>
+                                    </dd>
+                                </dl>
+                            </li>
+                            <li>
+                                <dl>
+                                    <dt>未分类</dt>
+                                </dl>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+            <div class="am-u-sm-10 am-u-end cx-seach">
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">
+                        少儿图类
+                    </div>
+                    <div class="am-panel-bd cx-seach-menu" id="ps-seach-menu">
+                        <div class="cx-seach-line">
+                            <h4>时间</h4>
+                            <ul>
+                                <li class="cx-active">近24小时</li>
+                                <li>近2天</li>
+                                <li>近3天</li>
+                                <li>近7天</li>
+                                <li>近1月</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>折扣</h4>
+                            <ul>
+                                <li class="cx-active">全部折扣</li>
+                                <li>5折以下</li>
+                                <li>5折以上</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cx-list">
+                    <ul class="am-avg-sm-2 am-thumbnails">
+                        <li>
+                            <div class="am-panel am-panel-default">
+                                <div class="am-panel-bd book">
+                                    <!-- ↓ 该标签写 为 新上架图书，不写为旧图书 -->
+                                    <div class="ps-newBook"></div>
+                                    <!-- ↑ 该标签写 为 新上架图书，不写为旧图书 -->
+                                    
+                                    <div class="book-img">
+                                        <a href="#" target="_blank">
+                                            <img  src="./img/newbook/newbook02.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="book-info">
+                                        <h2 class="name">
+                                            <a href="#" target="_blank">众生安眠</a>
+                                        </h2>
+                                        <div class="author">库尔特·冯内古特</div>
+                                        <div class="publisher">重庆大学出版社</div>
+                                        <div class="startWrap">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stark2.png">
+                                            <span>21条评论</span>
+                                        </div>
+                                        <div class="priceWrap">
+                                            <span class="sellPrice">¥9.9</span>
+                                            <span class="discount">(3.5折)</span>
+                                            <span class="priceTit">定价:</span>
+                                            <del class="">¥28.0</del>
+                                        </div>
+                                        <div class="oparateButton">
+                                            <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs">加入购物车</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li>
+                            <div class="am-panel am-panel-default">
+                                <div class="am-panel-bd book">
+                                    <div class="ps-newBook"></div>                                    
+                                    <div class="book-img">
+                                        <a href="#" target="_blank">
+                                            <img  src="./img/newbook/newbook02.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="book-info">
+                                        <h2 class="name">
+                                            <a href="#" target="_blank">众生安眠</a>
+                                        </h2>
+                                        <div class="author">库尔特·冯内古特</div>
+                                        <div class="publisher">重庆大学出版社</div>
+                                        <div class="startWrap">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stark2.png">
+                                            <span>21条评论</span>
+                                        </div>
+                                        <div class="priceWrap">
+                                            <span class="sellPrice">¥9.9</span>
+                                            <span class="discount">(3.5折)</span>
+                                            <span class="priceTit">定价:</span>
+                                            <del class="">¥28.0</del>
+                                        </div>
+                                        <div class="oparateButton">
+                                            <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs">加入购物车</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="am-panel am-panel-default">
+                                <div class="am-panel-bd book">
+                                    <div class="ps-newBook"></div>
+                                    <div class="book-img">
+                                        <a href="#" target="_blank">
+                                            <img  src="./img/newbook/newbook02.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="book-info">
+                                        <h2 class="name">
+                                            <a href="#" target="_blank">众生安眠</a>
+                                        </h2>
+                                        <div class="author">库尔特·冯内古特</div>
+                                        <div class="publisher">重庆大学出版社</div>
+                                        <div class="startWrap">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stark2.png">
+                                            <span>21条评论</span>
+                                        </div>
+                                        <div class="priceWrap">
+                                            <span class="sellPrice">¥9.9</span>
+                                            <span class="discount">(3.5折)</span>
+                                            <span class="priceTit">定价:</span>
+                                            <del class="">¥28.0</del>
+                                        </div>
+                                        <div class="oparateButton">
+                                            <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs">加入购物车</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="am-panel am-panel-default">
+                                <div class="am-panel-bd book">
+                                    <div class="ps-newBook"></div>
+                                    <div class="book-img">
+                                        <a href="#" target="_blank">
+                                            <img  src="./img/newbook/newbook02.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="book-info">
+                                        <h2 class="name">
+                                            <a href="#" target="_blank">众生安眠</a>
+                                        </h2>
+                                        <div class="author">库尔特·冯内古特</div>
+                                        <div class="publisher">重庆大学出版社</div>
+                                        <div class="startWrap">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stark2.png">
+                                            <span>21条评论</span>
+                                        </div>
+                                        <div class="priceWrap">
+                                            <span class="sellPrice">¥9.9</span>
+                                            <span class="discount">(3.5折)</span>
+                                            <span class="priceTit">定价:</span>
+                                            <del class="">¥28.0</del>
+                                        </div>
+                                        <div class="oparateButton">
+                                            <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs">加入购物车</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="am-panel am-panel-default">
+                                <div class="am-panel-bd book">
+                                    <div class="book-img">
+                                        <a href="#" target="_blank">
+                                            <img  src="./img/newbook/newbook02.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="book-info">
+                                        <h2 class="name">
+                                            <a href="#" target="_blank">众生安眠</a>
+                                        </h2>
+                                        <div class="author">库尔特·冯内古特</div>
+                                        <div class="publisher">重庆大学出版社</div>
+                                        <div class="startWrap">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stark2.png">
+                                            <span>21条评论</span>
+                                        </div>
+                                        <div class="priceWrap">
+                                            <span class="sellPrice">¥9.9</span>
+                                            <span class="discount">(3.5折)</span>
+                                            <span class="priceTit">定价:</span>
+                                            <del class="">¥28.0</del>
+                                        </div>
+                                        <div class="oparateButton">
+                                            <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs">加入购物车</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="am-panel am-panel-default">
+                                <div class="am-panel-bd book">
+                                    <div class="book-img">
+                                        <a href="#" target="_blank">
+                                            <img  src="./img/newbook/newbook02.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="book-info">
+                                        <h2 class="name">
+                                            <a href="#" target="_blank">众生安眠</a>
+                                        </h2>
+                                        <div class="author">库尔特·冯内古特</div>
+                                        <div class="publisher">重庆大学出版社</div>
+                                        <div class="startWrap">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stars2.png">
+                                            <img src="./img/base/stark2.png">
+                                            <span>21条评论</span>
+                                        </div>
+                                        <div class="priceWrap">
+                                            <span class="sellPrice">¥9.9</span>
+                                            <span class="discount">(3.5折)</span>
+                                            <span class="priceTit">定价:</span>
+                                            <del class="">¥28.0</del>
+                                        </div>
+                                        <div class="oparateButton">
+                                            <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs">加入购物车</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="am-u-sm-12 am-u-end base-ad">
+                    <ul class="am-pagination am-pagination-centered">
+                        <li class="am-disabled"><a href="#">上一页</a></li>
+                        <li class="am-active"><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">下一页</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <!-- 淘书团 content end -->
+    <!-- foot start -->		
+    <div class="base-shop-foot">
+        <p>© 2018 南京网博优壹 by 项目组-chw <br>2018年03月21日23:20:50</p>
+    </div>
+    <!-- foot end -->	
+</body>
+
+</html>

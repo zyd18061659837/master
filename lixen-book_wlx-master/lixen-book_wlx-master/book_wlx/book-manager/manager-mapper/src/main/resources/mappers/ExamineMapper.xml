@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.itany.mapper.ExamineMapper">
+
+    <resultMap id="examineMapper" type="Examine">
+        <id property="id" column="id"></id>
+        <result property="number" column="number"/>
+        <result property="info" column="info"/>
+        <result property="title" column="title"/>
+        <result property="flag" column="flag"/>
+
+        <result property="supplierId" column="supplierid"/>
+
+        <association property="book" column="bookid" javaType="com.itany.pojo.Book">
+            <id property="id" column="b.id"></id>
+            <result property="bookName" column="b.bookname"></result>
+            <result property="author" column="b.author"></result>
+            <result property="flag" column="b.flag"></result>
+            <result property="imgUrl" column="b.imgurl"></result>
+            <result property="number" column="b.number"></result>
+            <result property="createTime" column="b.createtime"></result>
+            <result property="authorIntroduce" column="b.authorintroduce"></result>
+            <result property="bookIntroduce" column="b.bookintroduce"></result>
+            <result property="weight" column="b.weight"></result>
+            <result property="register" column="b.register"></result>
+            <result property="groupPrice" column="b.groupprice"></result>
+            <result property="price" column="b.price"></result>
+            <result property="ISBN" column="b.ISBN"></result>
+            <result property="layout" column="b.layout"></result>
+            <association property="bookType" column="typeid" javaType="BookType">
+                <id property="id" column="bt.id"></id>
+                <result property="typeText" column="bt.typetext"></result>
+            </association>
+        </association>
+        <!--<association property="supplier" column="supplierid" javaType="Supplier">-->
+            <!--<id property="id" column="s.id"></id>-->
+        <!--</association>-->
+    </resultMap>
+    <sql id="examineSql">
+      e.id,
+      e.number,
+      e.info,
+      e.title,
+      e.flag,
+      b.id 'b.id',
+      b.bookname 'b.bookname',
+      b.author 'b.author',
+      b.flag 'b.flag',
+      b.imgurl 'b.imgurl',
+      b.number 'b.number',
+      b.createtime 'b.createtime',
+      b.authorintroduce 'b.authorintroduce',
+      b.bookintroduce 'b.bookintroduce',
+      b.weight 'b.weight',
+      b.register 'b.register',
+      b.groupprice 'b.groupprice',
+      b.price 'b.price',
+      b.ISBN 'b.ISBN',
+      b.layout 'b.layout',
+      bt.id 'bt.id',
+      bt.typetext 'bt.typetext',
+      supplierid
+    </sql>
+
+    <select id="selectBySupplier" parameterType="com.itany.vo.ExamineVO" resultMap="examineMapper">
+        select
+          <include refid="examineSql"/>
+        from
+          t_examine e
+        left join
+          t_book b
+        on
+          e.bookid = b.id
+        left join
+          t_book_type bt
+        on
+          b.typeid = bt.id
+        <where>
+            <if test="null != bookName and '' != bookName">
+              <bind name="bookName" value="'%'+_parameter.bookName+'%'"/>
+              and b.bookname like #{bookName}
+            </if>
+
+            <if test="null != ISBN and '' != ISBN">
+                <bind name="ISBN" value="'%'+_parameter.ISBN+'%'"/>
+                and b.ISBN like #{ISBN}
+            </if>
+            <if test="null != supplierId and '' != supplierId">
+                and supplierid = #{supplierId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertExamine" >
+        insert into
+          t_examine
+          (bookid,number,supplierid,title,flag)
+        values
+          (#{book.id},#{number},#{supplier.id},#{title},#{flag})
+    </insert>
+
+    <select id="selectById" resultMap="examineMapper">
+        select
+          <include refid="examineSql"/>
+        from
+          t_examine e
+        left join
+          t_book b
+        on
+          e.bookid = b.id
+        left join
+          t_book_type bt
+        on
+          b.typeid = bt.id
+        where
+          e.id = #{id}
+
+    </select>
+
+    <update id="updateByConditions">
+        update
+          t_examine
+        <set>
+            <if test="null != info and '' != info" >
+              info = #{info},
+            </if>
+            <if test="null != flag and '' != flag">
+              flag = #{flag},
+            </if>
+        </set>
+        where
+          id = #{id}
+    </update>
+
+
+</mapper>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>审核列表(平台)</title>
+    <link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+    <script type="text/javascript" src="easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+
+
+	<script type="text/javascript">
+
+        function test(id){
+
+            $.ajax({
+                type:'post',
+                url:'/manager/book/findById/'+id,
+                dataType:'json',
+                success:function (result) {
+                    console.log(result.data);
+                    if(result.success){
+                        let book = result.data;
+                        $("#bookName").val(book.bookName);
+                        $("#type").val(book.bookType.typeText);
+                        $("#ISBN").val(book.iSBN);
+                        $("#price").val(book.price);
+                        $("#groupPrice").val(book.groupPrice);
+                        $("#number").val(book.number);
+                        $("#layout").val(book.layout);
+                        $("#register").val(book.register);
+                        $("#weight").val(book.weight);
+                        $("#bookIntroduce").html(book.bookIntroduce);
+                        $("#authorIntroduce").html(book.authorIntroduce);
+                        $("#image").attr('src','http://localhost:8080'+book.imgUrl);
+                    }
+                }
+            });
+
+            $("#showBook").dialog({
+                title: '书籍详情',
+                width: 700,
+                height: 500,
+                closed: false,
+                cache: false,
+                href: '',
+                modal: true
+            });
+
+
+        }
+            //工具栏
+	    var toolbar = [{
+	        text: '审核',
+	        iconCls: 'icon-edit',
+	        handler: function () {  $('#dd').dialog('open');}
+	    }];
+
+
+	   $(function(){
+
+           let examineId;
+
+
+	       $('#booklist').datagrid({  
+				title:'审核列表',  
+				iconCls:'icon-save',   
+				url:'/manager/examine/findBySupplier',
+				columns:[
+				    [
+					{field:'title',title:'审核标题',width:100,align:'center'},
+					{field:'info',title:'审核详情',width:200,align:'center'},
+                    {field:'flag',title:'审核状态',width:80,align:'center',formatter:function (value,row,index) {
+                            if(value == 0){
+                                return '待审核';
+                            }
+                            if(value == 1){
+                                return '审核通过';
+                            }
+                            if(value == 2){
+                                return '审核不通过';
+                            }
+                        }},
+                        {field:'book',title:'书籍详情',width:200,align:'center',formatter:function(value,row,index){
+
+                                return "<a href='javascript:;' onclick='test("+value.id+")'>查看</a>";
+                            }
+                        }
+                    ]
+                ],
+				toolbar: toolbar,  
+				pagination: true,//表示在datagrid设置分页              
+               	pageSize: 5,
+				singleSelect:true,
+                pageList: [5,10,20],
+                onSelect:function (index,row) {
+                    examineId = row.id;
+
+                }
+			});
+
+
+
+		 //初始化查询栏
+		 $("#submit_search").linkbutton({ iconCls: 'icon-search', plain: true })
+            .click(function () {
+                $('#booklist').datagrid({
+                    queryParams: {
+                        bookName: $('#bookNameForSearch').val(),
+                        ISBN: $('#ISBNForSearch').val(),
+                        supplierId:$('#findAllSuppliers').combobox('getValue')
+
+                    }
+                });   //点击搜索
+            });
+          
+          //初始化修改窗口  
+         $('#dd').dialog({
+			    title: 'My Dialog',
+			    width: 700,
+			    height: 500,
+			    closed: true,
+			    cache: false,
+			    href: '',
+			    modal: true,
+			    iconCls: 'icon-save',
+                buttons: [{
+                    text:'提交',
+                    iconCls:'icon-ok',
+                    handler:function(){
+                        $.ajax({
+                           type:'post',
+                           url:'/manager/examine/startToExamine',
+                           data:{
+                               id:examineId,
+                               info:$("#info").val(),
+                               flag:$("#flag").val()
+                           },
+                           dataType:'json',
+                           success:function (result) {
+                               if(result.success){
+                                   $('#booklist').datagrid('reload');
+                                   $('#dd').dialog('close');
+                               }
+                           }
+                        });
+                    }
+                },{
+                    text:'关闭',
+                    handler:function(){
+                        $('#dd').dialog('close')
+                    }
+                }]
+			});
+
+           $('#findAllSuppliers').combobox({
+               url:'/manager/supplier/findAllSuppliers',
+               prompt:'请选择',
+               //指定value属性
+               valueField:'id',
+               //指定文本属性
+               textField:'name',
+               editable:true
+           });
+	   })
+
+	</script>
+</head>
+<body>
+   <form name="searchform" method="post" action="" id ="searchform">
+    <td width="70" height="30"><strong>审核查询：</strong></td>
+    <td height="30">
+        <input type="text" id="bookNameForSearch" name="bookName" size=20 placeholder="书籍名称"/>
+        <input type="text" id="ISBNForSearch" name="ISBN" size=20 placeholder="ISBN"/>
+		<!--<select name="findAllSuppliers" id="findAllSuppliers" onclick="findSuppliers()" >-->
+            <!--<option value="-1">请选择供应商</option>-->
+            <!--<option value="be_name" >供应商1</option>-->
+            <!--<option value="be_intro">供应商2</option>-->
+            <!--<option value="be_intro">供应商3</option>-->
+        <!--</select>-->
+        <input id="findAllSuppliers">
+    </td>
+	<td>
+	  <button id="submit_search" type="button">查询</button>
+	</td>
+  </form>
+  <table id="booklist"></table>
+    <div id="dd">
+           <div align="center" style="margin-top: 30px">
+            <form id="ff" method="post"> 
+             <table>
+			    <tr>
+				   <td>
+				      审核状态:
+				   </td>
+				   <td>
+						<select name="flag" id="flag" style="width:100px">
+							<option value="1">通过</option>
+							<option value="2">不通过</option>
+						</select>
+				   </td>
+				</tr>
+				<tr style="vertical-align:top">
+				   <td>
+				      审核详情:
+				   </td>
+				   <td>
+				     <textarea name="info" id="info" rows="10" cols="30"></textarea>
+				   </td>
+				</tr>
+			 </table>			
+        </form>
+           </div>
+    </div>
+
+   <div style="display: none" id="showBook">
+       <div align="center" style="margin-top: 30px"><br/>
+           书籍名称：<input readonly="readonly" id="bookName"><br/>
+           书籍类别：<input readonly="readonly" id="type"><br/>
+           ISBN：<input readonly="readonly" id="ISBN"><br/>
+           单价：<input readonly="readonly" id="price"><br/>
+           团购价：<input readonly="readonly" id="groupPrice"><br/>
+           数量：<input readonly="readonly" id="number"><br/>
+           版次：<input readonly="readonly" id="layout"><br/>
+           册数：<input readonly="readonly" id="register"><br/>
+           重量：<input readonly="readonly" id="weight"><br/>
+           书籍简介：<textarea id="bookIntroduce" readonly="readonly"></textarea><br/>
+           作者简介：<textarea id="authorIntroduce" readonly="readonly"></textarea><br/>
+           封面图片：<img id="image" src="" alt="图片加载失败"><br/>
+       </div>
+   </div>
+</body>
+</html>

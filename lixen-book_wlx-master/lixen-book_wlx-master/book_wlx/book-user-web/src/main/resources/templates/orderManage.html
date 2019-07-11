@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>订单管理页</title>
+		<!-- 设置360浏览器渲染引擎 -->
+		<meta name="renderer" content="webkit">
+		<link rel="icon" type="image/png" href="img/favicon.png">
+        <link rel="stylesheet" type="text/css" href="amazeui/css/amazeui.css" />
+		<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+        <script type="text/javascript" charset="utf-8" src="amazeui/js/amazeui.js"></script>
+		<!-- 全局CSS -->
+        <link rel="stylesheet" href="./css/base.css">
+		<!-- 当前页面 css -->
+        <link rel="stylesheet" type="text/css" href="css/orderManage.css"/>
+		<!-- 当前页面功能 js -->
+		<script src="./js/pages/orderManage.js"></script>
+	</head>
+	<body>
+        <!-- nav-start -->
+        <header class="am-topbar clear-margin">
+            <div class="am-container base-nav-font">
+                <div class="am-fl base-nav-title">
+                    <em>欢迎光临网博图书网</em>
+                    <a href="#">请登录</a>
+                    <a href="#">免费注册</a>
+                </div>
+                <ol class="am-fr base-nav-list">
+                    <li>
+                        <a href="#">购物车</a>
+                    </li>
+                    <li>
+                        <a href="#">我的订单</a>
+                    </li>
+                    <li>
+                        <div class="base-menu-list">
+                            <a>个人账户
+                                <span class="am-icon-caret-down"></span>
+                            </a>
+                            <div class="base-menu-list-content">
+                                <ul>
+                                    <li>个人信息</li>
+                                    <li>收货地址</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </header>
+        <!-- nav-end -->
+        <!-- userManage-start -->
+        <div class="user-manage-navbar">
+            <div class="am-container">
+                <div class="am-g">
+                    <div class="am-u-sm-12">
+                        <ul class="menu-list" id="infoMenu">
+                            <li><img src="./img/logo-str.png" alt=""></li>
+                            <li name="menu" data-target="userInfo">个人信息</li>
+                            <li name="menu" data-target="userOrder">订单管理</li>
+                            <li class="seach">
+                               <div>
+                                   <input type="text">
+                                   <button class="btn-seach">查询</button>
+                               </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 订单管理 start -->
+        <div id="orderList">
+            <div class="am-container">
+                <div class="am-u-sm-2">
+                    <ul class="am-list user-left-menu">
+                        <li data-target="allOrders">所有订单</li>
+                        <li data-target="pendingPayment">待付款</li>
+                        <li data-target="goodsReceived">待收货</li>
+                    </ul>
+                </div>
+                <div class="am-u-sm-10 user-right-content">
+
+                    <!-- 订单列表 start -->
+                    <div id="orderListShow">
+                        
+                    </div>
+                    <!-- 订单列表 end -->
+
+                </div>
+            </div>
+        </div>
+        <!-- 订单管理 end -->
+        
+        <!-- userManage-end -->
+    </body>
+</html>

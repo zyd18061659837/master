@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.itany.mapper.BookTypeMapper">
+
+    <resultMap id="typeMapper" type="BookType">
+        <id property="id" column="id"/>
+        <result property="typeText" column="typetext"/>
+        <collection property="children" column="id" ofType="BookType" select="selectByParentId"/>
+    </resultMap>
+
+
+    <select id="selectAll" resultMap="typeMapper">
+        select
+          id,typetext
+        from
+          t_book_type
+        where
+          pid is null
+    </select>
+
+    <select id="selectByParentId" resultMap="typeMapper">
+        select
+          id,typetext
+        from
+          t_book_type
+        where
+          pid = #{id}
+
+    </select>
+
+</mapper>

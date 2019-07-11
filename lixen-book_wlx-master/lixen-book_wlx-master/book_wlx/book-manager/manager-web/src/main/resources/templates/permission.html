@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>权限列表</title>
+    <link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
+    <script type="text/javascript" src="easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript">
+
+	    //工具栏
+	    var toolbar = [{
+	        text: '修改',
+	        iconCls: 'icon-edit',
+	        handler: function () {  $('#dd').dialog('open');}
+	    }];
+	   $(function(){
+
+	       let permissionId;
+
+	       $('#userlist').datagrid({  
+			title:'权限列表',  
+			iconCls:'icon-save',   
+			url:'/manager/permission/findByConditions',
+			columns:[
+			    [
+				{field:'id',title:'权限ID',width:100,align:'center'},
+				{field:'name',title:'权限名称',width:100,align:'center'},
+				{field:'url',title:'权限URL',width:100,align:'center'},
+				{field:'parent',title:'权限所在模块',width:80,align:'center',formatter:function (value,row,index) {
+
+				    if(undefined == row.parent){
+                        return "---"
+                    }else{
+				        return row.parent.name
+                    }
+                    }},
+				{field:'sName',title:'权限操作名称',width:200,align:'center'}
+			]
+            ],
+            singleSelect:true,
+			pagination:true,
+			toolbar: toolbar,
+            onSelect:function (index,row) {
+               permissionId = row.id;
+               $("#_easyui_textbox_input1").val(permissionId);
+            }
+           });
+		 //初始化查询栏
+		 $("#submit_search").linkbutton({ iconCls: 'icon-search', plain: true })
+            .click(function () {
+                $('#userlist').datagrid({ queryParams: {
+                        name:$("#name").val(),
+                        parentName:$("#parentName").val()
+                    }
+                });   //点击搜索
+            });
+
+         $('#findAllModels').combobox({
+            url:'/manager/permission/findAllModels',
+            prompt:'请选择模块',
+            valueField:'id',
+            textField:'name',
+            editable:false
+         });
+          
+          //初始化修改窗口  
+         $('#dd').dialog({
+            title: '修改权限',
+            width: 700,
+            height: 500,
+            closed: true,
+            cache: false,
+            href: '',
+            modal: true,
+            iconCls: 'icon-save',
+            buttons: [{
+                text:'提交',
+                iconCls:'icon-ok',
+                handler:function(){
+                    let formData = new FormData($("#ff")[0]);
+
+                    $.ajax({
+                        type:'post',
+                        url:'/manager/permission/modify',
+                        data:{
+                            id:permissionId,
+                            name:$("#_easyui_textbox_input3").val(),
+                            url:$("#_easyui_textbox_input2").val(),
+                            sName:$('#_easyui_textbox_input4').val(),
+                            parentId:$("#findAllModels").combobox('getValue'),
+                        },
+                        dataType:'json',
+                        success:function (result) {
+                            if(result.success){
+                                $('#userlist').datagrid('reload');
+                                $('#dd').dialog('close');
+                            }
+                        }
+                    })
+                }
+            },{
+                text:'关闭',
+                handler:function(){
+                    $('#dd').dialog('close');
+                }
+            }]
+        });
+            
+	   });
+	</script>
+</head>
+<body>
+   <form name="searchform" method="post" action="" id ="searchform">
+    <td width="70" height="30"><strong>权限查询：</strong></td>
+    <td height="30">
+        <input type="text" id="name" size=20 placeholder="权限名称"/>
+        <input type="text" id="parentName" size=20 placeholder="模块名称"/>
+        <a id="submit_search">搜索</a>
+    </td>
+  </form>
+  <table id="userlist"></table>
+    <div id="dd">
+       <div align="center" style="margin-top: 30px">
+            <form id="ff" method="post">
+                <div style="margin-bottom:20px">
+                    <input class="easyui-textbox" name="name" style="width:50%" data-options="label:'权限ID:'" readonly="readonly"/>
+                </div>
+                 <div style="margin-bottom:20px">
+                    <input class="easyui-textbox" id="urlForModifying" style="width:50%" data-options="label:'权限url:'"/>
+                </div>
+                <div style="margin-bottom:20px">
+                    <input class="easyui-textbox" id="nameForModifying" style="width:50%" data-options="label:'权限名称:',required:true">
+                </div>
+                <div style="margin-bottom:20px">
+                    <input class="easyui-textbox" name="snameForModifying" style="width:50%" data-options="label:'操作名称:',required:true,validType:'email'">
+                </div>
+                <div style="margin-bottom:20px">
+                    <!--<select class="easyui-combobox" name="language" label="所属模块:" style="width:50%" data-options="multiple:true" >-->
+                        <!--<option value="-1">请选择模块</option>-->
+                        <!--<option value="be_name" >用户管理</option>-->
+                        <!--<option value="be_intro">权限管理</option>-->
+                        <!--<option value="be_intro">元数据管理</option>-->
+                    <!--</select>-->
+                 模块名称 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <input style="width:50%" id="findAllModels"/>
+                </div>
+            </form>
+       </div>
+    </div>
+</body>
+</html>

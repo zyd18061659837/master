@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>购物车</title>
+		<!-- 设置360浏览器渲染引擎 -->
+		<meta name="renderer" content="webkit">
+		<link rel="icon" type="image/png" href="img/favicon.png">
+		<link rel="stylesheet" type="text/css" href="amazeui/css/amazeui.css" />
+		<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+		<script type="text/javascript" charset="utf-8" src="amazeui/js/amazeui.js"></script>
+		<!-- 全局CSS -->
+        <link rel="stylesheet" href="./css/base.css">
+		<!-- 当前页面 css -->
+        <link rel="stylesheet" type="text/css" href="css/shoppingCar.css"/>
+		<!-- 当前页面功能 js -->
+		<script src="./js/pages/shoppingCar.js"></script>
+	</head>
+	<body>
+		
+		<!-- nav-start -->
+		<header class="am-topbar">
+			<div class="am-container base-nav-font">
+				<div class="am-fl base-nav-title">
+					<em>欢迎光临网博图书网</em>
+					<a href="#">请登录</a>
+					<a href="#">免费注册</a>
+				</div>
+				<ol class="am-fr base-nav-list">
+					<li>
+						<a href="#">购物车</a>
+					</li>
+					<li><a href="#">我的订单</a></li>
+					<li>
+						<div class="base-menu-list">
+							<a>个人账户 <span class="am-icon-caret-down"></span></a>
+							<div class="base-menu-list-content">
+								<ul >
+									<li><a href="#">个人信息</a></li>
+									<li><a href="#">收货地址</a></li>									
+								</ul>
+							</div>
+						</div>
+					</li>
+				</ol>
+			</div>
+		</header>
+        <!-- nav-end -->
+        <!-- toptitle-start -->
+        <div class="base-nav">
+            <ul class="am-g am-g-fixed">
+                <li class="am-u-sm-6">
+                    <img class="nav-img" src="./img/logo.png">
+                </li>
+                <li class="am-u-sm-2">
+                    <div>√</div>
+                    <span>正版好图书</span>
+                </li>
+                <li class="am-u-sm-2">
+                    <div>邮</div>	
+                    <span>全场满69包邮</span>
+                </li>
+                <li class="am-u-sm-2">
+                    <div>折</div>
+                    <span>特价书一折起</span>
+                </li>
+            </ul>
+        </div>
+        <!-- toptitle-end -->
+        <!-- shoppingcontent-start  -->
+        <div  class="am-g am-g-fixed content">
+            <!-- shoppingprocess-start -->
+            <ul class="am-g process" id="executionSteps">
+                <!-- 
+                    需要自行完成 回退功能
+                -->
+                <li class="am-u-sm-2" name="stepOne">我的购物车</li>
+                <li class="am-u-sm-2" name="stepTwo">填写核对订单</li>
+                <li class="am-u-sm-2" name="stepThree">成功提交订单</li>
+            </ul>
+            <!-- shoppingprocess-start -->   
+
+            <!-- step-one-start -->
+            <div id="stepOne">
+                <!-- shoppingtitle-start -->
+                <ul class="am-g title">
+                    <li class="am-u-sm-2">购物车(3)</li>
+                </ul>
+                <!-- shoppingtitle-end -->  
+                
+                <!-- shoppinglist-start -->
+                <ul class="am-g total">
+                    <li  class="am-u-sm-2">
+                        <span><input type="checkbox"></span>全选
+                    </li>
+                    <li  class="am-u-sm-2">图书名称</li>
+                    <li  class="am-u-sm-2">定价（元）</li>
+                    <li  class="am-u-sm-2">平台售价（元）</li>
+                    <li  class="am-u-sm-2">数量</li>
+                    <li  class="am-u-sm-2">小计（元）</li>
+                    <li  class="am-u-sm-1">操作</li>
+                </ul>
+    
+                <ul class="am-g list">
+                    <li  class="am-u-sm-2">
+                        <span><input type="checkbox"></span>
+                        <span class="img"><img src="./img/newbook/newbook01.jpg"></span>
+                    </li>
+                    <li  class="am-u-sm-2">阿里阿德涅的子弹</li>
+                    <li  class="am-u-sm-2 price">￥29.8</li>
+                    <li  class="am-u-sm-2 price">￥8.9</li>
+                    <li  class="am-u-sm-2 num">
+                        <span>-</span>
+                        <span>1</span>
+                        <span>+</span>
+                    </li>
+                    <li  class="am-u-sm-2 price">￥8.9</li>
+                    <li  class="am-u-sm-1 am-u-end">删除</li>
+                </ul>
+    
+                <ul class="am-g list">
+                    <li  class="am-u-sm-2">
+                        <span><input type="checkbox"></span>
+                        <span class="img"><img src="./img/newbook/newbook01.jpg"></span>
+                    </li>
+                    <li  class="am-u-sm-2">所有人问所有人</li>
+                    <li  class="am-u-sm-2 price">￥38</li>
+                    <li  class="am-u-sm-2 price">￥8</li>
+                    <li  class="am-u-sm-2 num">
+                        <span>-</span>
+                        <span>1</span>
+                        <span>+</span>
+                    </li>
+                    <li  class="am-u-sm-2 price">￥8</li>
+                    <li  class="am-u-sm-1 am-u-end">删除</li>
+                </ul>
+
+                <ul class="am-g list">
+                    <li  class="am-u-sm-2">
+                        <span><input type="checkbox"></span>
+                        <span class="img"><img src="./img/newbook/newbook01.jpg"></span>
+                    </li>
+                    <li  class="am-u-sm-2">舞姬</li>
+                    <li  class="am-u-sm-2 price">￥25</li>
+                    <li  class="am-u-sm-2 price">￥8</li>
+                    <li  class="am-u-sm-2 num">
+                        <span>-</span>
+                        <span>1</span>
+                        <span>+</span>
+                    </li>
+                    <li  class="am-u-sm-2 price">￥8</li>
+                    <li  class="am-u-sm-1 am-u-end">删除</li>
+                </ul>
+
+                <ul class="am-g end car-end">
+                    <li  class="am-u-sm-1">
+                        <span><input type="checkbox"></span>
+                        <span class="img">全选</span>
+                    </li>
+                    <li  class="am-u-sm-2">删除选中的商品</li>
+                    <li  class="am-u-sm-3 price am-u-sm-offset-4">
+                        <p>已选择 <span class="num">0</span> 件商品，商品总金额<span class="price">￥0</span></p>
+                        <p>已优惠：<span>￥0</span></p>
+                    </li>
+                    <li  class="am-u-sm-2 am-u-end">
+                        <!-- 禁用状态 -->
+                        <!-- <div class="acount">立即结算</div> -->
+                        <!-- 启用状态 -->
+                        <div class="acount car-active">立即结算</div>
+
+                    </li>
+                </ul>
+                <!-- shoppinglist-end -->  
+            </div>
+            <!-- step-one-end -->
+
+            <!-- step-two-start -->
+            <div id="stepTwo">
+                <ul class="am-g title">
+                    <li class="am-u-sm-2">确认收货地址</li>
+                </ul>
+                <ul class="am-g address-list">
+                    <li>
+                        <input type="radio" name="address">
+                        <span class="address">江苏省南京市秦淮区龙蟠中路458号通济产业园北区 3栋1-2层</span> 
+                        <span class="name">(漩涡鸣人 收)</span>
+                        <span class="phone">18913000000</span>
+                    </li>
+                    <li class="active">
+                        <input type="radio" name="address" checked>
+                        <span class="address">江苏省南京市秦淮区龙蟠中路458号通济产业园北区 3栋1-2层</span> 
+                        <span class="name">(漩涡鸣人 收)</span>
+                        <span class="phone">18913000000</span>
+                        <span class="state">默认地址</span>
+
+                    </li>
+                    <li>
+                        <input type="radio" name="address">
+                        <span class="address">江苏省南京市秦淮区龙蟠中路458号通济产业园北区 3栋1-2层</span> 
+                        <span class="name">(漩涡鸣人 收)</span>
+                        <span class="phone">18913000000</span>
+                    </li>
+                    <li>
+                        <button class="am-btn am-btn-danger am-btn-xs">添加新地址</button>
+                    </li>
+                </ul>
+
+                <!-- shoppingtitle-start -->
+                <ul class="am-g title">
+                    <li class="am-u-sm-2">确认订单信息</li>
+                </ul>
+                <!-- shoppingtitle-end -->  
+                
+                <!-- shoppinglist-start -->
+                <ul class="am-g total">
+                    <li  class="am-u-sm-2"></li>
+                    <li  class="am-u-sm-2">图书名称</li>
+                    <li  class="am-u-sm-2">定价（元）</li>
+                    <li  class="am-u-sm-2">平台售价（元）</li>
+                    <li  class="am-u-sm-2">数量</li>
+                    <li  class="am-u-sm-2">小计（元）</li>
+                    <li  class="am-u-sm-1">操作</li>
+                </ul>
+    
+                <ul class="am-g list">
+                    <li  class="am-u-sm-2">
+                        <span class="img"><img src="./img/newbook/newbook01.jpg"></span>
+                    </li>
+                    <li  class="am-u-sm-2">阿里阿德涅的子弹</li>
+                    <li  class="am-u-sm-2 price">￥29.8</li>
+                    <li  class="am-u-sm-2 price">￥8.9</li>
+                    <li  class="am-u-sm-2 num">1</li>
+                    <li  class="am-u-sm-2 price">￥8.9</li>
+                    <li  class="am-u-sm-1 am-u-end">删除</li>
+                </ul>
+    
+                <ul class="am-g list">
+                    <li  class="am-u-sm-2">
+                        <span class="img"><img src="./img/newbook/newbook01.jpg"></span>
+                    </li>
+                    <li  class="am-u-sm-2">所有人问所有人</li>
+                    <li  class="am-u-sm-2 price">￥38</li>
+                    <li  class="am-u-sm-2 price">￥8</li>
+                    <li  class="am-u-sm-2 num">1</li>
+                    <li  class="am-u-sm-2 price">￥8</li>
+                    <li  class="am-u-sm-1 am-u-end">删除</li>
+                </ul>
+
+                <ul class="am-g list">
+                    <li  class="am-u-sm-2">
+                        <span class="img"><img src="./img/newbook/newbook01.jpg"></span>
+                    </li>
+                    <li  class="am-u-sm-2">舞姬</li>
+                    <li  class="am-u-sm-2 price">￥25</li>
+                    <li  class="am-u-sm-2 price">￥8</li>
+                    <li  class="am-u-sm-2 num">1</li>
+                    <li  class="am-u-sm-2 price">￥8</li>
+                    <li  class="am-u-sm-1 am-u-end">删除</li>
+                </ul>
+
+                <ul class="am-g end car-end">
+                    <li  class="am-u-sm-3 price am-u-sm-offset-7">
+                        <p>合计<span class="price">￥24.9</span></p>
+                        <p>已优惠：<span>￥57.9</span></p>
+                    </li>
+                    <li  class="am-u-sm-2 am-u-end">
+                        <!-- 禁用状态 -->
+                        <!-- <div class="acount">提交订单</div> -->
+                        <!-- 启用状态 -->
+                        <div class="acount car-active">提交订单</div>
+
+                    </li>
+                </ul>
+                <!-- shoppinglist-end -->  
+            </div>
+            <!-- step-two-end -->
+
+            
+            <!-- step-three-start -->
+            <div id="stepThree">
+                <ul class="am-g user-info">
+                    <li class="am-u-sm-12">
+                        <span class="tip">订单编号</span>
+                        :
+                        <span>XDCEK99345655234254354</span>
+                    </li>
+                    <li class="am-u-sm-12">
+                        <span class="tip">收货人</span>
+                        :
+                        <span>漩涡鸣人</span>
+                    </li>
+                    <li class="am-u-sm-12">
+                        <span class="tip">联系电话</span>
+                        :
+                        <span>18913000000</span>
+                    </li>
+                    <li class="am-u-sm-12">
+                        <span class="tip">收货地址</span>
+                        :
+                        <span>江苏省南京市秦淮区龙蟠中路458号通济产业园北区 3栋1-2层</span> 
+                    </li>
+                    
+                </ul>
+                
+                <!-- shoppinglist-start -->
+                <ul class="am-g total">
+                    <li  class="am-u-sm-2"></li>
+                    <li  class="am-u-sm-2">图书名称</li>
+                    <li  class="am-u-sm-2">定价（元）</li>
+                    <li  class="am-u-sm-2">平台售价（元）</li>
+                    <li  class="am-u-sm-2">数量</li>
+                    <li  class="am-u-sm-2">小计（元）</li>
+                    <li  class="am-u-sm-1">操作</li>
+                </ul>
+    
+                <ul class="am-g list">
+                    <li  class="am-u-sm-2">
+                        <span class="img"><img src="./img/newbook/newbook01.jpg"></span>
+                    </li>
+                    <li  class="am-u-sm-2">阿里阿德涅的子弹</li>
+                    <li  class="am-u-sm-2 price">￥29.8</li>
+                    <li  class="am-u-sm-2 price">￥8.9</li>
+                    <li  class="am-u-sm-2 num">1</li>
+                    <li  class="am-u-sm-2 price">￥8.9</li>
+                    <li  class="am-u-sm-1 am-u-end">删除</li>
+                </ul>
+    
+                <ul class="am-g list">
+                    <li  class="am-u-sm-2">
+                        <span class="img"><img src="./img/newbook/newbook01.jpg"></span>
+                    </li>
+                    <li  class="am-u-sm-2">所有人问所有人</li>
+                    <li  class="am-u-sm-2 price">￥38</li>
+                    <li  class="am-u-sm-2 price">￥8</li>
+                    <li  class="am-u-sm-2 num">1</li>
+                    <li  class="am-u-sm-2 price">￥8</li>
+                    <li  class="am-u-sm-1 am-u-end">删除</li>
+                </ul>
+
+                <ul class="am-g list">
+                    <li  class="am-u-sm-2">
+                        <span class="img"><img src="./img/newbook/newbook01.jpg"></span>
+                    </li>
+                    <li  class="am-u-sm-2">舞姬</li>
+                    <li  class="am-u-sm-2 price">￥25</li>
+                    <li  class="am-u-sm-2 price">￥8</li>
+                    <li  class="am-u-sm-2 num">1</li>
+                    <li  class="am-u-sm-2 price">￥8</li>
+                    <li  class="am-u-sm-1 am-u-end">删除</li>
+                </ul>
+
+                <ul class="am-g end car-end">
+                    <li  class="am-u-sm-3 price am-u-sm-offset-7">
+                        <p>合计<span class="price">￥24.9</span></p>
+                        <p>已优惠：<span>￥57.9</span></p>
+                    </li>
+                    <li  class="am-u-sm-2 am-u-end">
+                        <!-- 禁用状态 -->
+                        <!-- <div class="acount">去支付</div> -->
+                        <!-- 启用状态 -->
+                        <div class="acount car-active">去支付</div>
+
+                    </li>
+                </ul>
+                <!-- shoppinglist-end -->  
+            </div>
+            <!-- step-three-end -->
+        </div>
+        <!-- shoppingcontent-end -->
+
+
+        <!-- 支付信息 -->
+        <div class="am-modal am-modal-alert" tabindex="-1" id="scavengingPayment">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd scavenging-tip">支付宝扫码支付</div>
+                <div class="am-modal-bd">
+                    <img src="./img/scaveng-dome.png" alt="">
+                </div>
+                <div class="am-modal-footer">
+                <span class="am-modal-btn">关闭</span>
+                </div>
+            </div>
+        </div>
+
+
+    </body>
+</html>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.itany.mapper.BookTypeMapper">
+
+    <resultMap id="typeMapper" type="BookType">
+        <!--三级类别-->
+        <id property="id" column="id"></id>
+        <result property="typeText" column="typetext"></result>
+        <association property="parentType" column="pid" javaType="BookType">
+            <!--二级类别-->
+            <id property="id" column="f.id"></id>
+            <result property="typeText" column="f.typetext"></result>
+            <association property="parentType" column="f.pid" javaType="BookType">
+                <!--一级类型-->
+                <id property="id" column="g.id"></id>
+                <result property="typeText" column="g.typetext"></result>
+            </association>
+        </association>
+    </resultMap>
+
+    <sql id="typeSql">
+      bt.id,
+      bt.typetext,
+      btf.id 'f.id',
+      btf.typetext 'f.typetext',
+      btg.id 'g.id',
+      btg.typetext 'g.typetext'
+    </sql>
+
+    <select id="selectAll" resultMap="typeMapper">
+        select
+          <include refid="typeSql"/>
+        from
+          t_book_type bt
+        left join
+          t_book_type btf
+        on
+          bt.pid = btf.id
+        left join
+          t_book_type btg
+        on
+          btf.pid = btg.id
+    </select>
+</mapper>
